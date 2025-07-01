@@ -1,0 +1,49 @@
+interface IRequest {
+	readonly flag?: string
+	readonly salesOrder?: string
+	readonly customer?: string
+	readonly name?: string
+	readonly customerAddressGroup?: string
+	readonly pricesIncludeSalesTax?: string
+	readonly salesName?: string
+	readonly currency?: string
+	readonly itemNumber?: string
+	readonly productName?: string
+	readonly unit?: string
+	readonly quantity?: Date
+	readonly unitPrice?: string
+	readonly discountPercent?: string
+	readonly deliverRemainder?: string
+	readonly remainQty2?: string
+	readonly remainUnit2?: string
+	readonly salesTaxGroup?: string
+	readonly itemSalesTaxGroup?: string
+	readonly value?: string
+	readonly valueIncTax?: string
+	readonly dimensionValue?: string
+}
+
+export class RequestDTO implements IRequest {
+	readonly flag?: string
+	readonly salesOrder?: string
+	readonly customer?: string
+	readonly name?: string
+	readonly customerAddressGroup?: string
+	readonly pricesIncludeSalesTax?: string
+	readonly salesName?: string
+	readonly currency?: string
+	readonly itemNumber?: string
+	readonly productName?: string
+	readonly unit?: string
+	readonly quantity?: Date
+	readonly unitPrice?: string
+	readonly discountPercent?: string
+	readonly deliverRemainder?: string
+	readonly remainQty2?: string
+	readonly remainUnit2?: string
+	readonly salesTaxGroup?: string
+	readonly itemSalesTaxGroup?: string
+	readonly value?: string
+	readonly valueIncTax?: string
+	readonly dimensionValue?: string
+}

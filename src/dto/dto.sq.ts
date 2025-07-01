@@ -1,0 +1,53 @@
+interface ISq {
+	readonly quotation?: string
+	readonly created_date_and_time?: string
+	readonly invoiceAccount?: string
+	readonly name?: string
+	readonly prospect?: string
+	readonly customerAddressGroup?: string
+	readonly quotationStatus?: string
+	readonly deliveryName?: string
+	readonly productName?: string
+	readonly searchName?: string
+	readonly site?: Date
+	readonly warehouse?: string
+	readonly salesTaker?: string
+	readonly salesResponsible?: string
+	readonly quantity?: string
+	readonly lineweight?: string
+	readonly unitPrice?: string
+	readonly discountPercent?: string
+	readonly discount?: string
+	readonly netAmount?: string
+	readonly dimensionValue?: string
+	readonly note1?: string
+	readonly note2?: string
+	readonly note3?: string
+}
+
+export class SqDTO implements ISq {
+	readonly quotation?: string
+	readonly created_date_and_time?: string
+	readonly invoiceAccount?: string
+	readonly name?: string
+	readonly prospect?: string
+	readonly customerAddressGroup?: string
+	readonly quotationStatus?: string
+	readonly deliveryName?: string
+	readonly productName?: string
+	readonly searchName?: string
+	readonly site?: Date
+	readonly warehouse?: string
+	readonly salesTaker?: string
+	readonly salesResponsible?: string
+	readonly quantity?: string
+	readonly lineweight?: string
+	readonly unitPrice?: string
+	readonly discountPercent?: string
+	readonly discount?: string
+	readonly netAmount?: string
+	readonly dimensionValue?: string
+    readonly note1?: string
+	readonly note2?: string
+	readonly note3?: string
+}
