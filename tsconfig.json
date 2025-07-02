@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
-		"outDir": "dist",
+		"outDir": "./dist",
+		"rootDir": ".",
 		"target": "ESNext",
 		"module": "CommonJS",
 		"moduleResolution": "node",
@@ -17,6 +18,6 @@
 		"noImplicitAny": false,
 		"typeRoots": ["node_modules/@types/"]
 	},
-	"include": ["server.ts", "src/**/*.ts", "knexfile.ts"],
+	"include": ["src/**/*.ts", "knexfile.ts", "server.ts"],
 	"exclude": ["node_modules", "dist", "backups"]
 }

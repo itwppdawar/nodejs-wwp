@@ -12,7 +12,7 @@
     ],
     "env": {
         "node": true,
-        "jest/globals": true
+        "jest": true
     },
     "rules": {
         "camelcase": 0,

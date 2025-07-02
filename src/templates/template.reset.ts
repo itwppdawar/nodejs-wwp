@@ -1,12 +1,15 @@
-import { IResetMail } from '../interface/interface.templatemail'
+import { IResetMail } from "../interface/interface.templatemail";
 
-const CLIENT_URL = process.env.NODE_ENV !== 'production' ? process.env.URL_DEV : process.env.URL_PROD
+const CLIENT_URL =
+	process.env.NODE_ENV !== "production"
+		? process.env.URL_DEV
+		: process.env.URL_PROD;
 
 export const tempMailReset = (to: string, token: string): IResetMail => {
 	return {
-		from: 'admin@bfintech.com',
+		from: "admin@bfintech.com",
 		to: to,
-		subject: 'Confirmation Reset Password',
+		subject: "Confirmation Reset Password",
 		html: `
         <!DOCTYPE html>
         <html lang="en">
@@ -139,6 +142,6 @@ export const tempMailReset = (to: string, token: string): IResetMail => {
             </div>
           </body>
       </html>
-        `
-	}
-}
+        `,
+	};
+};

@@ -3,7 +3,7 @@ import knex from "../../database";
 import { expressValidator } from "../../utils/util.validator";
 import { UsersDTO } from "../../dto/dto.users";
 
-export const resultAdmin = async (
+export const resultsAdmin = async (
 	req: Request,
 	res: Response
 ): Promise<Response<any>> => {
@@ -17,15 +17,13 @@ export const resultAdmin = async (
 		});
 	}
 
-	const findUser: UsersDTO[] = await knex<UsersDTO>("users")
-		.where({ user_id: req.params.id })
-		.select("*");
+	const findUsers: UsersDTO[] = await knex<UsersDTO>("users").select("*");
 
-	if (findUser.length < 1) {
+	if (findUsers.length < 1) {
 		return res.status(404).json({
 			status: res.statusCode,
 			method: req.method,
-			message: "user id is not exist",
+			message: "data is not exist",
 		});
 	}
 
@@ -33,6 +31,6 @@ export const resultAdmin = async (
 		status: res.statusCode,
 		method: req.method,
 		message: "data already exist",
-		data: findUser,
+		data: findUsers,
 	});
 };

@@ -1,12 +1,15 @@
-import { IResendMail } from '../interface/interface.templatemail'
+import { IResendMail } from "../interface/interface.templatemail";
 
-const CLIENT_URL = process.env.NODE_ENV !== 'production' ? process.env.URL_DEV : process.env.URL_PROD
+const CLIENT_URL =
+	process.env.NODE_ENV !== "production"
+		? process.env.URL_DEV
+		: process.env.URL_PROD;
 
 export const tempMailResend = (to: string, token: string): IResendMail => {
 	return {
-		from: 'admin@bfintech.com',
+		from: "admin@bfintech.com",
 		to: to,
-		subject: 'Email Activation Account',
+		subject: "Email Activation Account",
 		html: `
         <!DOCTYPE html>
         <html lang="en">
@@ -158,6 +161,6 @@ export const tempMailResend = (to: string, token: string): IResendMail => {
             </div>
           </body>
       </html>
-        `
-	}
-}
+        `,
+	};
+};

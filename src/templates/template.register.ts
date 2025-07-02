@@ -1,11 +1,14 @@
-import { IRegisterMail } from '../interface/interface.templatemail'
+import { IRegisterMail } from "../interface/interface.templatemail";
 
-const CLIENT_URL = process.env.NODE_ENV !== 'production' ? process.env.URL_DEV : process.env.URL_PROD
+const CLIENT_URL =
+	process.env.NODE_ENV !== "production"
+		? process.env.URL_DEV
+		: process.env.URL_PROD;
 
 export const tempMailRegister = (to: string, token: string): IRegisterMail => ({
-	from: 'admin@bfintech.com',
+	from: "admin@bfintech.com",
 	to: to,
-	subject: 'Email Activation Account',
+	subject: "Email Activation Account",
 	html: `
         <!DOCTYPE html>
         <html lang="en">
@@ -157,5 +160,5 @@ export const tempMailRegister = (to: string, token: string): IRegisterMail => ({
             </div>
           </body>
       </html>
-        `
-})
+        `,
+});
