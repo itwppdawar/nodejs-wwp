@@ -11,22 +11,22 @@ import {
 
 interface CreateReportRequest {
 	// Sales Report fields
-	company: string;
-	sales_order: string;
-	po_number?: string;
-	so_date?: string;
-	invoice?: string;
-	external_invoice: string;
-	invoice_date?: Date;
-	due_date?: Date;
-	invoice_account?: string;
-	name?: string;
-	address_group?: string;
-	packslip_date?: Date;
-	packing_slip?: string;
-	external_packing_slip?: string;
-	sales?: string;
-
+	sales: Array<{
+		company: string;
+		sales_order: string;
+		po_number?: string;
+		so_date?: string;
+		invoice?: string;
+		external_invoice: string;
+		invoice_date?: Date;
+		due_date?: Date;
+		invoice_account?: string;
+		name?: string;
+		address_group?: string;
+		packslip_date?: Date;
+		packing_slip?: string;
+		external_packing_slip?: string;
+	}>;
 	// Items array
 	items: Array<{
 		item_number: string;
@@ -88,10 +88,24 @@ export const createReport = async (
 	}
 	const requestBody: CreateReportRequest = req.body;
 
+	// Validate sales array
 	if (
-		!requestBody.company ||
-		!requestBody.sales_order ||
-		!requestBody.external_invoice
+		!requestBody.sales ||
+		!Array.isArray(requestBody.sales) ||
+		requestBody.sales.length === 0
+	) {
+		return res.status(400).json({
+			status: res.statusCode,
+			method: req.method,
+			message: "Sales harus berupa array dan tidak boleh kosong",
+		});
+	}
+
+	// Check required fields in sales
+	if (
+		!requestBody.sales[0].company ||
+		!requestBody.sales[0].sales_order ||
+		!requestBody.sales[0].external_invoice
 	) {
 		return res.status(400).json({
 			status: res.statusCode,
@@ -100,6 +114,7 @@ export const createReport = async (
 		});
 	}
 
+	// Validate items array
 	if (
 		!requestBody.items ||
 		!Array.isArray(requestBody.items) ||
@@ -112,10 +127,11 @@ export const createReport = async (
 		});
 	}
 
+	// Validate price array
 	if (
 		!requestBody.price ||
 		!Array.isArray(requestBody.price) ||
-		requestBody.items.length === 0
+		requestBody.price.length === 0
 	) {
 		return res.status(400).json({
 			status: res.statusCode,
@@ -124,10 +140,11 @@ export const createReport = async (
 		});
 	}
 
+	// Validate division array
 	if (
 		!requestBody.division ||
 		!Array.isArray(requestBody.division) ||
-		requestBody.items.length === 0
+		requestBody.division.length === 0
 	) {
 		return res.status(400).json({
 			status: res.statusCode,
@@ -136,10 +153,11 @@ export const createReport = async (
 		});
 	}
 
+	// Validate customer array
 	if (
 		!requestBody.customer ||
 		!Array.isArray(requestBody.customer) ||
-		requestBody.items.length === 0
+		requestBody.customer.length === 0
 	) {
 		return res.status(400).json({
 			status: res.statusCode,
@@ -151,21 +169,21 @@ export const createReport = async (
 	return await knex.transaction(async (trx) => {
 		try {
 			const salesReportData: Partial<SalesReportDTO> = {
-				company: requestBody.company,
-				sales_order: requestBody.sales_order,
-				po_number: requestBody.po_number || null,
-				so_date: requestBody.so_date || null,
-				invoice: requestBody.invoice || null,
-				external_invoice: requestBody.external_invoice,
-				invoice_date: requestBody.invoice_date || null,
-				due_date: requestBody.due_date || null,
-				invoice_account: requestBody.invoice_account || null,
-				name: requestBody.name || null,
-				address_group: requestBody.address_group || null,
-				packslip_date: requestBody.packslip_date || null,
-				packing_slip: requestBody.packing_slip || null,
-				external_packing_slip: requestBody.external_packing_slip || null,
-				sales: requestBody.sales || null,
+				company: requestBody.sales[0].company,
+				sales_order: requestBody.sales[0].sales_order,
+				po_number: requestBody.sales[0].po_number || null,
+				so_date: requestBody.sales[0].so_date || null,
+				invoice: requestBody.sales[0].invoice || null,
+				external_invoice: requestBody.sales[0].external_invoice,
+				invoice_date: requestBody.sales[0].invoice_date || null,
+				due_date: requestBody.sales[0].due_date || null,
+				invoice_account: requestBody.sales[0].invoice_account || null,
+				name: requestBody.sales[0].name || null,
+				address_group: requestBody.sales[0].address_group || null,
+				packslip_date: requestBody.sales[0].packslip_date || null,
+				packing_slip: requestBody.sales[0].packing_slip || null,
+				external_packing_slip:
+					requestBody.sales[0].external_packing_slip || null,
 				created_at: new Date(),
 				updated_at: new Date(),
 			};
@@ -184,6 +202,7 @@ export const createReport = async (
 				const division = requestBody.division[i];
 				const customer = requestBody.customer[i];
 
+				// Validate item data
 				if (
 					!item.item_number ||
 					!item.color_type ||
@@ -193,6 +212,27 @@ export const createReport = async (
 				) {
 					throw new Error(
 						`Item dengan item_number ${item.item_number} memiliki data yang tidak lengkap`
+					);
+				}
+
+				// Validate price data
+				if (!price || !price.price || !price.tax_code) {
+					throw new Error(
+						`Data price untuk price dengan price ${price.price} tidak ditemukan atau tidak lengkap`
+					);
+				}
+
+				// Validate division data
+				if (!division || !division.divisi) {
+					throw new Error(
+						`Data division untuk divisi dengan divisi ${division.divisi} tidak ditemukan atau tidak lengkap`
+					);
+				}
+
+				// Validate customer data
+				if (!customer || !customer.invoicing_name_custom) {
+					throw new Error(
+						`Data customer untuk dengan name custom ${customer.invoicing_name_custom} tidak ditemukan atau tidak lengkap`
 					);
 				}
 
@@ -221,15 +261,10 @@ export const createReport = async (
 
 				if (!itemReport) {
 					throw new Error(
-						`Gagal membuat item report untuk ${item.item_number}`
+						`Gagal membuat item report untuk item ${item.item_number}`
 					);
 				}
 
-				if (!price) {
-					throw new Error(
-						`Data price untuk item dengan item_number ${item.item_number} tidak ditemukan`
-					);
-				}
 				const priceReportData: Partial<PriceReportDTO> = {
 					item_id: itemReport.id,
 					price: price.price,
@@ -239,20 +274,15 @@ export const createReport = async (
 					header_disc: price.header_disc || null,
 					total: price.total || null,
 					tax_code: price.tax_code || null,
-					tax: price.tax,
-					total_and_tax: price.total_and_tax,
-					include_tax: price.include_tax,
+					tax: price.tax || null,
+					total_and_tax: price.total_and_tax || null,
+					include_tax: price.include_tax || null,
 					created_at: new Date(),
 					updated_at: new Date(),
 				};
 
 				await trx("priceReport").insert(priceReportData);
 
-				if (!division) {
-					throw new Error(
-						`Data division untuk item dengan item_number ${item.item_number} tidak ditemukan`
-					);
-				}
 				const divisionReportData: Partial<DivisionReportDTO> = {
 					item_id: itemReport.id,
 					divisi: division.divisi,
@@ -262,15 +292,13 @@ export const createReport = async (
 					updated_at: new Date(),
 				};
 
-				const [divisionReport] = await trx("DivisionReport")
+				const [divisionReport] = await trx("divisionReport")
 					.insert(divisionReportData)
 					.returning("*");
 
-				await trx("divisionReport").insert(divisionReportData);
-
-				if (!division) {
+				if (!divisionReport) {
 					throw new Error(
-						`Data division untuk item dengan item_number ${item.item_number} tidak ditemukan`
+						`Gagal membuat division report untuk divisi ${division.divisi}`
 					);
 				}
 
@@ -287,12 +315,6 @@ export const createReport = async (
 				};
 
 				await trx("customerReport").insert(customerReportData);
-
-				if (!customer) {
-					throw new Error(
-						`Data customer untuk division dengan division_divisi ${division.divisi} tidak ditemukan`
-					);
-				}
 			}
 
 			await trx.commit();

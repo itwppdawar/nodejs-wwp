@@ -10,8 +10,8 @@ export async function up(knex: Knex): Promise<Knex.SchemaBuilder> {
 		table.string("customer_address_group").nullable();
 		table.string("prices_include_sales_tax").nullable();
 		table.string("sales_name").nullable();
-		table.timestamp("created_at").defaultTo(null);
-		table.timestamp("updated_at").defaultTo(null);
+		table.timestamp("created_at").defaultTo(knex.fn.now());
+		table.timestamp("updated_at").defaultTo(knex.fn.now());
 	});
 }
 

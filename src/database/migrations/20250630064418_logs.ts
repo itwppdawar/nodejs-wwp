@@ -12,7 +12,8 @@ export async function up(knex: Knex): Promise<Knex.SchemaBuilder> {
 			.notNullable();
 		table.string("log_status").notNullable();
 		table.dateTime("log_time").notNullable();
-		table.timestamp("created_at").defaultTo(null);
+		table.timestamp("created_at").defaultTo(knex.fn.now());
+		table.timestamp("updated_at").defaultTo(knex.fn.now());
 	});
 }
 

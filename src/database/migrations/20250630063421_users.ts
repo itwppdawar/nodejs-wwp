@@ -11,8 +11,8 @@ export async function up(knex: Knex): Promise<Knex.SchemaBuilder> {
 		table.bigInteger("noc_transfer").notNullable().defaultTo(0);
 		table.dateTime("first_login").defaultTo(null);
 		table.dateTime("last_login").defaultTo(null);
-		table.timestamp("created_at").defaultTo(null);
-		table.timestamp("updated_at").defaultTo(null);
+		table.timestamp("created_at").defaultTo(knex.fn.now());
+		table.timestamp("updated_at").defaultTo(knex.fn.now());
 	});
 }
 

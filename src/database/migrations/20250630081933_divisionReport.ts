@@ -15,8 +15,8 @@ export async function up(knex: Knex): Promise<Knex.SchemaBuilder> {
 			table.string("divisi").notNullable();
 			table.string("credit_limit").nullable();
 			table.string("cl_group").nullable();
-			table.timestamp("created_at").defaultTo(null);
-			table.timestamp("updated_at").defaultTo(null);
+			table.timestamp("created_at").defaultTo(knex.fn.now());
+			table.timestamp("updated_at").defaultTo(knex.fn.now());
 		}
 	);
 }

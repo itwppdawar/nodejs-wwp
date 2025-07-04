@@ -20,8 +20,8 @@ export async function up(knex: Knex): Promise<Knex.SchemaBuilder> {
 		table.decimal("tax", 15, 5).nullable();
 		table.integer("total_and_tax").nullable();
 		table.integer("include_tax").nullable();
-		table.timestamp("created_at").defaultTo(null);
-		table.timestamp("updated_at").defaultTo(null);
+		table.timestamp("created_at").defaultTo(knex.fn.now());
+		table.timestamp("updated_at").defaultTo(knex.fn.now());
 	});
 }
 

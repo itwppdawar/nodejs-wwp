@@ -23,8 +23,8 @@ export async function up(knex: Knex): Promise<Knex.SchemaBuilder> {
 		table.string("unit").notNullable();
 		table.string("qty_in_kg_ppic").nullable();
 		table.string("qty_in_kg_mkt").nullable();
-		table.timestamp("created_at").defaultTo(null);
-		table.timestamp("updated_at").defaultTo(null);
+		table.timestamp("created_at").defaultTo(knex.fn.now());
+		table.timestamp("updated_at").defaultTo(knex.fn.now());
 	});
 }
 

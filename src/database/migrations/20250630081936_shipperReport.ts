@@ -27,8 +27,8 @@ export async function up(knex: Knex): Promise<Knex.SchemaBuilder> {
 		table.text("note_1").nullable();
 		table.text("note_2").nullable();
 		table.text("note_3").nullable();
-		table.timestamp("created_at").defaultTo(null);
-		table.timestamp("updated_at").defaultTo(null);
+		table.timestamp("created_at").defaultTo(knex.fn.now());
+		table.timestamp("updated_at").defaultTo(knex.fn.now());
 	});
 }
 

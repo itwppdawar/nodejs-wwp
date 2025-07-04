@@ -6,11 +6,10 @@ export async function up(knex: Knex): Promise<Knex.SchemaBuilder> {
 		table
 			.integer("qoutation_id")
 			.references("id")
-			.inTable("qoutationSq")
+			.inTable("quotationSq")
 			.onDelete("CASCADE")
 			.onUpdate("CASCADE")
 			.notNullable();
-		table.string("qoutation_id").notNullable();
 		table.string("item_number").notNullable();
 		table.string("product_name").notNullable();
 		table.string("search_name").notNullable();
