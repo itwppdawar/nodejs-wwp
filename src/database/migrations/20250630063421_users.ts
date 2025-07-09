@@ -8,7 +8,6 @@ export async function up(knex: Knex): Promise<Knex.SchemaBuilder> {
 		table.string("photo").defaultTo("default.jpeg");
 		table.boolean("active").defaultTo(false);
 		table.string("role").defaultTo("user");
-		table.bigInteger("noc_transfer").notNullable().defaultTo(0);
 		table.dateTime("first_login").defaultTo(null);
 		table.dateTime("last_login").defaultTo(null);
 		table.timestamp("created_at").defaultTo(knex.fn.now());

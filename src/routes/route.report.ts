@@ -6,13 +6,13 @@ import { reportValidator } from "../utils/util.validator";
 const router: Router = express.Router();
 
 router.post(
-	"/user/saldo",
+	"/report",
 	[authJwt(), ...reportValidator()],
 	reportController.createReport
 );
-// router.get('/report', roleJwt(), reportController.resultsAdmin)
-// router.get('/report/:id', [roleJwt(), ...paramsValiator()], reportController.resultAdmin)
-// router.delete('/report/:id', [roleJwt(), ...paramsValiator()], reportController.deleteAdmin)
-// router.put('/report/:id', [roleJwt(), ...paramsValiator(), ...adminValidator()], reportController.updateAdmin)
+router.get("/report", [authJwt()], reportController.resultsReport);
+router.get("/report/:id", [authJwt()], reportController.detailReport);
+router.delete("/report/:id", [authJwt()], reportController.deleteReport);
+router.put("/report/:id", [authJwt()], reportController.updateReport);
 
 export default router;

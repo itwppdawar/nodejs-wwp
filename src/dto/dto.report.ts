@@ -15,8 +15,6 @@ export interface ISalesReport {
 	readonly packing_slip?: string | null;
 	readonly external_packing_slip?: string | null;
 	readonly sales?: string | null;
-	readonly created_at?: Date | null;
-	readonly updated_at?: Date | null;
 }
 
 export class SalesReportDTO implements ISalesReport {
@@ -36,8 +34,6 @@ export class SalesReportDTO implements ISalesReport {
 	readonly packing_slip?: string | null;
 	readonly external_packing_slip?: string | null;
 	readonly sales?: string | null;
-	readonly created_at?: Date | null;
-	readonly updated_at?: Date | null;
 }
 
 export interface IItemReport {
@@ -56,8 +52,6 @@ export interface IItemReport {
 	readonly unit: string;
 	readonly qty_in_kg_ppic?: string | null;
 	readonly qty_in_kg_mkt?: string | null;
-	readonly created_at?: Date | null;
-	readonly updated_at?: Date | null;
 }
 
 export class ItemReportDTO implements IItemReport {
@@ -76,8 +70,21 @@ export class ItemReportDTO implements IItemReport {
 	readonly unit: string;
 	readonly qty_in_kg_ppic?: string | null;
 	readonly qty_in_kg_mkt?: string | null;
-	readonly created_at?: Date | null;
-	readonly updated_at?: Date | null;
+}
+
+export interface IDivisionReport {
+	readonly id?: number;
+	readonly item_id: number;
+	readonly divisi: string;
+	readonly credit_limit?: string | null;
+	readonly cl_group?: string | null;
+}
+export class DivisionReportDTO implements IDivisionReport {
+	readonly id?: number;
+	readonly item_id: number;
+	readonly divisi: string;
+	readonly credit_limit?: string | null;
+	readonly cl_group?: string | null;
 }
 
 export interface IPriceReport {
@@ -93,8 +100,6 @@ export interface IPriceReport {
 	readonly tax: number;
 	readonly total_and_tax: number;
 	readonly include_tax: number;
-	readonly created_at?: Date | null;
-	readonly updated_at?: Date | null;
 }
 
 export class PriceReportDTO implements IPriceReport {
@@ -110,28 +115,6 @@ export class PriceReportDTO implements IPriceReport {
 	readonly tax: number;
 	readonly total_and_tax: number;
 	readonly include_tax: number;
-	readonly created_at?: Date | null;
-	readonly updated_at?: Date | null;
-}
-
-export interface IDivisionReport {
-	readonly id?: number;
-	readonly item_id: number;
-	readonly divisi: string;
-	readonly credit_limit?: string | null;
-	readonly cl_group?: string | null;
-	readonly created_at?: Date | null;
-	readonly updated_at?: Date | null;
-}
-
-export class DivisionReportDTO implements IDivisionReport {
-	readonly id?: number;
-	readonly item_id: number;
-	readonly divisi: string;
-	readonly credit_limit?: string | null;
-	readonly cl_group?: string | null;
-	readonly created_at?: Date | null;
-	readonly updated_at?: Date | null;
 }
 
 export interface ICustomerReport {
@@ -143,8 +126,6 @@ export interface ICustomerReport {
 	readonly group_state?: string | null;
 	readonly credit_limit?: string | null;
 	readonly cl_group?: string | null;
-	readonly created_at?: Date | null;
-	readonly updated_at?: Date | null;
 }
 
 export class CustomerReportDTO implements ICustomerReport {
@@ -156,6 +137,38 @@ export class CustomerReportDTO implements ICustomerReport {
 	readonly group_state?: string | null;
 	readonly credit_limit?: string | null;
 	readonly cl_group?: string | null;
+}
+
+export interface IShipperReport {
+	readonly id?: number;
+	readonly division_id: number;
+	readonly kota: string;
+	readonly propinsi?: string | null;
+	readonly sales_district_id?: string | null;
+	readonly district?: string | null;
+	readonly term?: string | null;
+	readonly pay_status?: string | null;
+	readonly closed_date?: string | null;
+	readonly note_1?: string | null;
+	readonly note_2?: string | null;
+	readonly note_3?: string | null;
+	readonly created_at?: Date | null;
+	readonly updated_at?: Date | null;
+}
+
+export class ShipperReportDTO implements IShipperReport {
+	readonly id?: number;
+	readonly division_id: number;
+	readonly kota: string;
+	readonly propinsi?: string | null;
+	readonly sales_district_id?: string | null;
+	readonly district?: string | null;
+	readonly term?: string | null;
+	readonly pay_status?: string | null;
+	readonly closed_date?: string | null;
+	readonly note_1?: string | null;
+	readonly note_2?: string | null;
+	readonly note_3?: string | null;
 	readonly created_at?: Date | null;
 	readonly updated_at?: Date | null;
 }
