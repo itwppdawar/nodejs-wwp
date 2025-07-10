@@ -102,6 +102,33 @@ export const reportValidator = (): ValidationChain[] => [
 	check("pay_status").notEmpty().withMessage("pay_status is required"),
 ];
 
+export const fileUploadReport = (): ValidationChain[] => [
+	check("company").notEmpty().withMessage("company is required"),
+	check("external_invoice")
+		.notEmpty()
+		.withMessage("external_invoice is required"),
+	check("item_number").notEmpty().withMessage("item_number is required"),
+	check("size_width").notEmpty().withMessage("size_width is required"),
+	check("qty").notEmpty().withMessage("qty is required"),
+	check("qty").isNumeric().withMessage("qty must be a number"),
+	check("unit").notEmpty().withMessage("unit is required"),
+	check("divisi").notEmpty().withMessage("divisi is required"),
+	check("price").notEmpty().withMessage("price is required"),
+	check("price").custom((value) => {
+		// Handle formats like "12.750.00" (dots as thousand separators)
+		const cleanValue = value.replace(/\./g, "").replace(/,/g, ".");
+		if (isNaN(parseFloat(cleanValue))) {
+			throw new Error("price must be a valid number");
+		}
+		return true;
+	}),
+	check("invoicing_name_custom")
+		.notEmpty()
+		.withMessage("invoicing_name_custom is required"),
+	check("term").notEmpty().withMessage("term is required"),
+	check("pay_status").notEmpty().withMessage("pay_status is required"),
+];
+
 export const requestValidator = (): ValidationChain[] => [
 	check("user_id").notEmpty().withMessage("user_id is required"),
 	check("user_id").isNumeric().withMessage("user_id must be a number"),

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import knex from "../../database";
+import { excelUpload } from "../../utils/util.excel.upload";
 
 export const detailSQ = async (
 	req: Request,

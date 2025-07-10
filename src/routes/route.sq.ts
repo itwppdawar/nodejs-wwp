@@ -2,6 +2,7 @@ import express, { Router } from "express";
 import { salesQoutationController } from "../controllers/sQ";
 import { authJwt } from "../middlewares/middleware.auth";
 import { reportValidator } from "../utils/util.validator";
+// import { excelUpload } from "../utils/util.excel.upload";
 
 const router: Router = express.Router();
 
@@ -16,7 +17,5 @@ router.get(
 	[authJwt()],
 	salesQoutationController.detailSQ
 );
-// router.delete("/request/:id", [authJwt()], requestController.deleterequest);
-// router.put("/request/:id", [authJwt()], requestController.updateReport);
 
 export default router;

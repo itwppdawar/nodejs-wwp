@@ -4,7 +4,7 @@ export async function up(knex: Knex): Promise<Knex.SchemaBuilder> {
 	await knex.schema.createTable("reports", (table: Knex.TableBuilder) => {
 		table.increments("id").primary();
 		table.string("company", 255).notNullable();
-		table.string("sales_order", 255).unique();
+		table.string("sales_order", 255).notNullable();
 		table.string("po_number", 255).nullable();
 		table.string("so_date", 255).nullable();
 		table.string("invoice", 255).nullable();
@@ -18,7 +18,7 @@ export async function up(knex: Knex): Promise<Knex.SchemaBuilder> {
 		table.string("packing_slip", 255).nullable();
 		table.string("external_packing_slip", 255).nullable();
 		table.string("sales", 255).nullable();
-		table.string("item_number").unique();
+		table.string("item_number").notNullable();
 		table.string("item_name_origin").nullable();
 		table.string("item_name").nullable();
 		table.string("group_product").nullable();
