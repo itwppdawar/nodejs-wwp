@@ -1,15 +1,18 @@
-// import express, { Router } from 'express'
-// import { adminController } from '../controllers/admins'
-// import { fileUpload } from '../utils/util.upload'
-// import { adminValidator, paramsValiator } from '../utils/util.validator'
-// import { roleJwt } from '../middlewares/middleware.role'
+import express, { Router } from "express";
+import { salesOrderController } from "../controllers/sO";
+import { authJwt } from "../middlewares/middleware.auth";
+import { reportValidator } from "../utils/util.validator";
 
-// const router: Router = express.Router()
+const router: Router = express.Router();
 
-// router.post('/admin', [...adminValidator(), fileUpload.fields([{ name: 'photo' }])], adminController.createAdmin)
-// router.get('/admin', roleJwt(), adminController.resultsAdmin)
-// router.get('/admin/:id', [roleJwt(), ...paramsValiator()], adminController.resultAdmin)
-// router.delete('/admin/:id', [roleJwt(), ...paramsValiator()], adminController.deleteAdmin)
-// router.put('/admin/:id', [roleJwt(), ...paramsValiator(), ...adminValidator()], adminController.updateAdmin)
+// router.post(
+// 	"/report",
+// 	[authJwt(), ...reportValidator()],
+// 	requestController.createReport
+// );
+router.get("/sales-order", [authJwt()], salesOrderController.resultsSO);
+router.get("/sales-order/:id", [authJwt()], salesOrderController.detailSo);
+// router.delete("/request/:id", [authJwt()], requestController.deleterequest);
+// router.put("/request/:id", [authJwt()], requestController.updateReport);
 
-// export default router
+export default router;

@@ -1,27 +1,27 @@
 import { Request, Response } from "express";
 import knex from "../../database";
 
-export const resultsSQ = async (
+export const resultsInvoice = async (
 	req: Request,
 	res: Response
 ): Promise<Response<any>> => {
 	try {
 		const soId = req.params.id;
 		if (soId) {
-			const so = await knex("sqs").where({ id: soId }).first();
+			const so = await knex("salesInvoice").where({ id: soId }).first();
 
 			if (!so) {
 				return res.status(404).json({
 					status: res.statusCode,
 					method: req.method,
-					message: "Sales Qoutation tidak ditemukan",
+					message: "Invoice tidak ditemukan",
 				});
 			}
 
 			return res.status(200).json({
 				status: res.statusCode,
 				method: req.method,
-				message: "Sales Qoutation berhasil diambil",
+				message: "Invoice berhasil diambil",
 				data: so,
 			});
 		} else {
@@ -29,9 +29,9 @@ export const resultsSQ = async (
 			const limit = parseInt(req.query.limit as string) || 10;
 			const offset = (page - 1) * limit;
 
-			const [{ count }] = await knex("sqs").count("* as count");
+			const [{ count }] = await knex("salesInvoice").count("* as count");
 
-			const salesOrders = await knex("sqs")
+			const salesOrders = await knex("salesInvoice")
 				.orderBy("created_at", "desc")
 				.limit(limit)
 				.offset(offset);
@@ -39,7 +39,7 @@ export const resultsSQ = async (
 			return res.status(200).json({
 				status: res.statusCode,
 				method: req.method,
-				message: "Daftar Sales Qoutation berhasil diambil",
+				message: "Daftar Invoice berhasil diambil",
 				data: salesOrders,
 				pagination: {
 					total: parseInt(count as string),
@@ -53,7 +53,7 @@ export const resultsSQ = async (
 		return res.status(500).json({
 			status: res.statusCode,
 			method: req.method,
-			message: "Gagal mengambil data Sales Qoutation",
+			message: "Gagal mengambil data Invoice",
 			error: error instanceof Error ? error.message : "Unknown error",
 		});
 	}

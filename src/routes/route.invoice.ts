@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { salesQoutationController } from "../controllers/sQ";
+import { InvoiceController } from "../controllers/invoice";
 import { authJwt } from "../middlewares/middleware.auth";
 import { reportValidator } from "../utils/util.validator";
 
@@ -10,12 +10,8 @@ const router: Router = express.Router();
 // 	[authJwt(), ...reportValidator()],
 // 	requestController.createReport
 // );
-router.get("/sales-qoutation", [authJwt()], salesQoutationController.resultsSQ);
-router.get(
-	"/sales-qoutation/:id",
-	[authJwt()],
-	salesQoutationController.detailSQ
-);
+router.get("/invoice", [authJwt()], InvoiceController.resultsInvoice);
+router.get("/invoice/:id", [authJwt()], InvoiceController.detailInvoice);
 // router.delete("/request/:id", [authJwt()], requestController.deleterequest);
 // router.put("/request/:id", [authJwt()], requestController.updateReport);
 

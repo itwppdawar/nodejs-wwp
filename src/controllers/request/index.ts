@@ -1,11 +1,13 @@
 // import { createRequest } from './request.create'
-// import { resultRequest } from './request.result'
+import { resultsRequest } from "./request.results";
+import { detailRequest } from "./request.detail";
 // import { deleteRequest } from './request.delete'
 // import { updateRequest } from './request.update'
 
-// export const requestController = {
-// 	createRequest,
-// 	resultRequest,
-// 	deleteRequest,
-// 	updateRequest
-// }
+export const requestController = {
+	// createRequest,
+	resultsRequest,
+	detailRequest,
+	// deleteRequest,
+	// updateRequest
+};

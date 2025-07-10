@@ -1,11 +1,13 @@
-// import { createSo } from './sq.create'
-// import { resultSo } from './sq.result'
-// import { deleteSo } from './sq.delete'
-// import { updateSo } from './sq.update'
+// import { createSo } from "./sq.create";
+import { resultsSQ } from "./sq.results";
+import { detailSQ } from "./sq.detail";
+// import { deleteSQ } from "./sq.delete";
+// import { updateSQ } from "./sq.update";
 
-// export const SoController = {
-// 	createSo,
-// 	resultSo,
-// 	deleteSo,
-// 	updateSo
-// }
+export const salesQoutationController = {
+	// createSQ,
+	resultsSQ,
+	detailSQ,
+	// deleteSQ,
+	// updateSQ
+};
