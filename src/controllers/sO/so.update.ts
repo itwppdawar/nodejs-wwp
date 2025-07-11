@@ -1,58 +1,108 @@
-// import { Request, Response } from 'express'
-// import knex from '../../database'
-// import { expressValidator } from '../../utils/util.validator'
-// import { SaldoDTO } from '../../dto/dto.report'
-// import { UsersDTO } from '../../dto/dto.users'
+import { Request, Response } from "express";
+import knex from "../../database";
+import { expressValidator } from "../../utils/util.validator";
 
-// export const updateSo = async (req: Request, res: Response): Promise<Response<any>> => {
-// 	const errors = expressValidator(req)
+export const updateSo = async (
+	req: Request,
+	res: Response
+): Promise<Response<any>> => {
+	const errors = expressValidator(req);
 
-// 	if (errors.length > 0) {
-// 		return res.status(400).json({
-// 			status: res.statusCode,
-// 			method: req.method,
-// 			errors
-// 		})
-// 	}
+	if (errors.length > 0) {
+		return res.status(400).json({
+			status: res.statusCode,
+			method: req.method,
+			errors,
+		});
+	}
 
-// 	const { user_id, total_balance }: SaldoDTO = req.body
+	try {
+		const { id } = req.params;
 
-// 	if (total_balance <= 49000) {
-// 		return res.status(403).json({
-// 			status: res.statusCode,
-// 			method: req.method,
-// 			message: 'mininum balance Rp 50.000'
-// 		})
-// 	}
+		if (!id) {
+			return res.status(400).json({
+				status: res.statusCode,
+				method: req.method,
+				message: "Sales Order ID diperlukan",
+			});
+		}
 
-// 	const checkUserId: UsersDTO[] = await knex<UsersDTO>('users').where({ user_id: user_id }).select('*')
-// 	const checkSaldoId: SaldoDTO[] = await knex<SaldoDTO>('saldo').where({ saldo_id: req.params.id }).select('*')
+		const existingSo = await knex("so").where({ id }).first();
 
-// 	if (checkUserId.length < 1 || checkSaldoId.length < 1) {
-// 		return res.status(404).json({
-// 			status: res.statusCode,
-// 			method: req.method,
-// 			message: 'user id or saldo id is not exist, update data saldo failed'
-// 		})
-// 	}
+		if (!existingSo) {
+			return res.status(404).json({
+				status: res.statusCode,
+				method: req.method,
+				message: "Sales Order tidak ditemukan",
+			});
+		}
 
-// 	const updateSaldo: number = await knex<SaldoDTO>('saldo').where({ saldo_id: checkSaldoId[0].saldo_id }).update({
-// 		user_id: user_id,
-// 		total_balance: total_balance,
-// 		updated_at: new Date()
-// 	})
+		const SoData: any = {
+			updated_at: new Date(),
+		};
 
-// 	if (updateSaldo < 1) {
-// 		return res.status(408).json({
-// 			status: res.statusCode,
-// 			method: req.method,
-// 			message: 'update data saldo failed, server is busy'
-// 		})
-// 	}
+		if (req.body.flag !== undefined) SoData.flag = req.body.flag;
+		if (req.body.sales_order !== undefined)
+			SoData.sales_order = req.body.sales_order;
+		if (req.body.customer !== undefined) SoData.customer = req.body.customer;
+		if (req.body.name !== undefined) SoData.name = req.body.name;
+		if (req.body.customer_address_group !== undefined)
+			SoData.customer_address_group = req.body.customer_address_group;
+		if (req.body.prices_include_sales_tax !== undefined)
+			SoData.prices_include_sales_tax = req.body.prices_include_sales_tax;
+		if (req.body.sales_name !== undefined)
+			SoData.sales_name = req.body.sales_name;
+		if (req.body.item_number !== undefined)
+			SoData.item_number = req.body.item_number;
+		if (req.body.currency !== undefined) SoData.currency = req.body.currency;
+		if (req.body.product_name !== undefined)
+			SoData.product_name = req.body.product_name;
+		if (req.body.unit !== undefined) SoData.unit = req.body.unit;
+		if (req.body.quantity !== undefined) SoData.quantity = req.body.quantity;
+		if (req.body.unit_price !== undefined)
+			SoData.unit_price = req.body.unit_price;
+		if (req.body.discount_percent !== undefined)
+			SoData.discount_percent = req.body.discount_percent;
+		if (req.body.deliver_remainder !== undefined)
+			SoData.deliver_remainder = req.body.deliver_remainder;
+		if (req.body.remain_qty_2 !== undefined)
+			SoData.remain_qty_2 = req.body.remain_qty_2;
+		if (req.body.remain_unit_2 !== undefined)
+			SoData.remain_unit_2 = req.body.remain_unit_2;
+		if (req.body.sales_tax_group !== undefined)
+			SoData.sales_tax_group = req.body.sales_tax_group;
+		if (req.body.item_sales_tax_group !== undefined)
+			SoData.item_sales_tax_group = req.body.item_sales_tax_group;
+		if (req.body.value !== undefined) SoData.value = req.body.value;
+		if (req.body.value_inc_tax !== undefined)
+			SoData.value_inc_tax = req.body.value_inc_tax;
+		if (req.body.dimension_value !== undefined)
+			SoData.dimension_value = req.body.dimension_value;
 
-// 	return res.status(200).json({
-// 		status: res.statusCode,
-// 		method: req.method,
-// 		message: 'update data saldo successfully'
-// 	})
-// }
+		const updateResult = await knex("so").where({ id }).update(SoData);
+
+		if (updateResult === 0) {
+			return res.status(408).json({
+				status: res.statusCode,
+				method: req.method,
+				message: "Gagal mengupdate Sales Order, server sibuk",
+			});
+		}
+
+		const updatedso = await knex("so").where({ id }).first();
+
+		return res.status(200).json({
+			status: res.statusCode,
+			method: req.method,
+			message: "sales order berhasil diupdate",
+			data: updatedso,
+		});
+	} catch (error) {
+		return res.status(500).json({
+			status: res.statusCode,
+			method: req.method,
+			message: "Gagal mengupdate salaes order",
+			error: error instanceof Error ? error.message : "Unknown error",
+		});
+	}
+};

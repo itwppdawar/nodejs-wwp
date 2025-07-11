@@ -25,9 +25,9 @@ export const paramsValiator = (): ValidationChain[] => [
 ];
 
 export const registerValidator = (): ValidationChain[] => [
-	check("email").isEmpty().withMessage("email is required"),
+	check("email").notEmpty().withMessage("email is required"),
 	check("email").isEmail().withMessage("email is not valid"),
-	check("password").isEmpty().withMessage("password is required"),
+	check("password").notEmpty().withMessage("password is required"),
 	check("password")
 		.isLength({ min: 8 })
 		.withMessage("password must be at least 8 characters"),
@@ -128,39 +128,87 @@ export const fileUploadReport = (): ValidationChain[] => [
 	check("term").notEmpty().withMessage("term is required"),
 	check("pay_status").notEmpty().withMessage("pay_status is required"),
 ];
-
+// request body validation create for request
 export const requestValidator = (): ValidationChain[] => [
-	check("user_id").notEmpty().withMessage("user_id is required"),
-	check("user_id").isNumeric().withMessage("user_id must be a number"),
-	check("withdraw_amount")
+	check("request_number").notEmpty().withMessage("request_number is required"),
+	check("request_name").notEmpty().withMessage("request_name is required"),
+	check("request_date").notEmpty().withMessage("request_date is required"),
+	check("request_date")
+		.isISO8601()
+		.withMessage("request_date must be a valid date"),
+	check("request_by").notEmpty().withMessage("request_by is required"),
+	check("request_to").notEmpty().withMessage("request_to is required"),
+	check("request_status").notEmpty().withMessage("request_status is required"),
+	check("request_type").notEmpty().withMessage("request_type is required"),
+	check("request_priority")
 		.notEmpty()
-		.withMessage("withdraw_amount is required"),
-	check("withdraw_amount")
-		.isNumeric()
-		.withMessage("withdraw_amount must be a number"),
+		.withMessage("request_priority is required"),
+	check("request_description")
+		.notEmpty()
+		.withMessage("request_description is required"),
 ];
 
-export const soValidator = (): ValidationChain[] => [
-	check("user_id").notEmpty().withMessage("user_id is required"),
-	check("user_id").isNumeric().withMessage("user_id must be a number"),
-	check("withdraw_amount")
+// request body validation create for invoice
+export const invoiceValidator = (): ValidationChain[] => [
+	check("invoice_number").notEmpty().withMessage("invoice_number is required"),
+	check("invoice_date").notEmpty().withMessage("invoice_date is required"),
+	check("invoice_date")
+		.isISO8601()
+		.withMessage("invoice_date must be a valid date"),
+	check("customer_name").notEmpty().withMessage("customer_name is required"),
+	check("customer_address")
 		.notEmpty()
-		.withMessage("withdraw_amount is required"),
-	check("withdraw_amount")
+		.withMessage("customer_address is required"),
+	check("total_amount").notEmpty().withMessage("total_amount is required"),
+	check("total_amount")
 		.isNumeric()
-		.withMessage("withdraw_amount must be a number"),
+		.withMessage("total_amount must be a number"),
+	check("tax_amount").isNumeric().withMessage("tax_amount must be a number"),
+	check("status").notEmpty().withMessage("status is required"),
 ];
 
-export const sqValidator = (): ValidationChain[] => [
-	check("user_id").notEmpty().withMessage("user_id is required"),
-	check("user_id").isNumeric().withMessage("user_id must be a number"),
-	check("withdraw_amount")
+// request body validation create for sales order
+export const salesOrderValidator = (): ValidationChain[] => [
+	check("flag").notEmpty().withMessage("flag is required"),
+	check("item_number").notEmpty().withMessage("item_number is required"),
+	check("quantity").notEmpty().withMessage("quantity is required"),
+	check("unit_price").notEmpty().withMessage("unit_price is required"),
+	check("remain_unit_2").notEmpty().withMessage("remain_unit_2 is required"),
+	check("sales_tax_group")
 		.notEmpty()
-		.withMessage("withdraw_amount is required"),
-	check("withdraw_amount")
-		.isNumeric()
-		.withMessage("withdraw_amount must be a number"),
+		.withMessage("sales_tax_group is required"),
+	check("item_sales_tax_group")
+		.notEmpty()
+		.withMessage("item_sales_tax_group is required"),
+	check("value_inc_tax").notEmpty().withMessage("value_inc_tax is required"),
 ];
+
+// request body validation create for sales quotation
+export const salesQuotationValidator = (): ValidationChain[] => [
+	check("item_number").notEmpty().withMessage("item_number is required"),
+	check("product_name").notEmpty().withMessage("product_name is required"),
+	check("search_name").notEmpty().withMessage("search_name is required"),
+	check("site").notEmpty().withMessage("site is required"),
+	check("warehouse").notEmpty().withMessage("warehouse is required"),
+	check("sales_taker").notEmpty().withMessage("sales_taker is required"),
+	check("sales_responsible")
+		.notEmpty()
+		.withMessage("sales_responsible is required"),
+	check("quantity").notEmpty().withMessage("quantity is required"),
+	check("unit_price").notEmpty().withMessage("unit_price is required"),
+	check("discount_percent")
+		.notEmpty()
+		.withMessage("discount_percent is required"),
+	check("discount").notEmpty().withMessage("discount is required"),
+	check("net_amount").notEmpty().withMessage("net_amount is required"),
+	check("dimension_value")
+		.notEmpty()
+		.withMessage("dimension_value is required"),
+	check("note_1").notEmpty().withMessage("note_1 is required"),
+	check("note_2").notEmpty().withMessage("note_2 is required"),
+	check("note_3").notEmpty().withMessage("note_3 is required"),
+];
+
 export const adminValidator = (): ValidationChain[] => [
 	check("email").notEmpty().withMessage("email is required"),
 	check("email").isEmail().withMessage("email is not valid"),

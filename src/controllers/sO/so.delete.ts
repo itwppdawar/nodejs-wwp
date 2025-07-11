@@ -1,44 +1,63 @@
-// import { Request, Response } from 'express'
-// import knex from '../../database'
-// import { expressValidator } from '../../utils/util.validator'
-// import { SaldoDTO } from '../../dto/dto.report'
-// import { UsersDTO } from '../../dto/dto.users'
+import { Request, Response } from "express";
+import knex from "../../database";
+import { expressValidator } from "../../utils/util.validator";
 
-// export const deleteSo = async (req: Request, res: Response): Promise<Response<any>> => {
-// 	const errors = expressValidator(req)
+export const deleteSo = async (
+	req: Request,
+	res: Response
+): Promise<Response<any>> => {
+	const errors = expressValidator(req);
 
-// 	if (errors.length > 0) {
-// 		return res.status(400).json({
-// 			status: res.statusCode,
-// 			method: req.method,
-// 			errors
-// 		})
-// 	}
+	if (errors.length > 0) {
+		return res.status(400).json({
+			status: res.statusCode,
+			method: req.method,
+			errors,
+		});
+	}
 
-// 	const checkUserId: UsersDTO[] = await knex<UsersDTO>('users').where({ user_id: req.params.id }).select('*')
-// 	const checkSaldoId: SaldoDTO[] = await knex<SaldoDTO>('saldo').where({ saldo_id: req.params.id }).select('*')
+	try {
+		const { id } = req.params;
 
-// 	if (checkUserId.length < 1 || checkSaldoId.length < 1) {
-// 		return res.status(404).json({
-// 			status: res.statusCode,
-// 			method: req.method,
-// 			message: 'user id or saldo id is not exist, delete data saldo failed'
-// 		})
-// 	}
+		if (!id) {
+			return res.status(400).json({
+				status: res.statusCode,
+				method: req.method,
+				message: "Sales Order diperlukan",
+			});
+		}
 
-// 	const deleteSaldo: number = await knex<SaldoDTO>('saldo').where({ saldo_id: checkSaldoId[0].saldo_id }).delete()
+		const existingSo = await knex("so").where({ id }).first();
 
-// 	if (deleteSaldo < 1) {
-// 		return res.status(408).json({
-// 			status: res.statusCode,
-// 			method: req.method,
-// 			message: 'delete data saldo failed, server is busy'
-// 		})
-// 	}
+		if (!existingSo) {
+			return res.status(404).json({
+				status: res.statusCode,
+				method: req.method,
+				message: "Sales Order tidak ditemukan",
+			});
+		}
 
-// 	return res.status(200).json({
-// 		status: res.statusCode,
-// 		method: req.method,
-// 		message: 'delete data saldo successfully'
-// 	})
-// }
+		const deleteResult = await knex("so").where({ id }).delete();
+
+		if (deleteResult === 0) {
+			return res.status(408).json({
+				status: res.statusCode,
+				method: req.method,
+				message: "Gagal menghapus Sales Order, server sibuk",
+			});
+		}
+
+		return res.status(200).json({
+			status: res.statusCode,
+			method: req.method,
+			message: "Sales Order berhasil dihapus",
+		});
+	} catch (error) {
+		return res.status(500).json({
+			status: res.statusCode,
+			method: req.method,
+			message: "Gagal menghapus Sales Order",
+			error: error instanceof Error ? error.message : "Unknown error",
+		});
+	}
+};

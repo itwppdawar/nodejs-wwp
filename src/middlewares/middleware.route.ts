@@ -15,8 +15,6 @@ export const routeMiddleware = (app: Application): void => {
 	app.use("/api/v1", sq);
 	app.use("/api/v1", so);
 	app.use("/api/v1", invoice);
-	// app.use('/api/v1', sqoOpen)
-	// app.use('/api/v1', soOpen)
 	app.get(
 		"/",
 		(req: Request, res: Response): Response<any> => {

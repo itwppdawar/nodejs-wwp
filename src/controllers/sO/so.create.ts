@@ -1,62 +1,62 @@
-// import { Request, Response } from 'express'
-// import knex from '../../database'
-// import { expressValidator } from '../../utils/util.validator'
-// import { SaldoDTO } from '../../dto/dto.report'
-// import { UsersDTO } from '../../dto/dto.users'
+import { Request, Response } from "express";
+import knex from "../../database";
+import { expressValidator } from "../../utils/util.validator";
 
-// export const createSo = async (req: Request, res: Response): Promise<Response<any>> => {
-// 	const errors = expressValidator(req)
+export const createSo = async (
+	req: Request,
+	res: Response
+): Promise<Response<any>> => {
+	const errors = expressValidator(req);
 
-// 	if (errors.length > 0) {
-// 		return res.status(400).json({
-// 			status: res.statusCode,
-// 			method: req.method,
-// 			errors
-// 		})
-// 	}
+	if (errors.length > 0) {
+		return res.status(400).json({
+			status: res.statusCode,
+			method: req.method,
+			errors,
+		});
+	}
 
-// 	if (req.body.total_balance <= 49000) {
-// 		return res.status(403).json({
-// 			status: res.statusCode,
-// 			method: req.method,
-// 			message: 'mininum saldo Rp 50.000'
-// 		})
-// 	}
+	try {
+		// Extract data from So body
+		const salesOrder = {
+			flag: req.body.flag,
+			sales_order: req.body.sales_order,
+			customer: req.body.customer,
+			name: req.body.name,
+			customer_address_group: req.body.customer_address_group,
+			prices_include_sales_tax: req.body.prices_include_sales_tax,
+			sales_name: req.body.sales_name,
+			item_number: req.body.item_number,
+			currency: req.body.currency,
+			product_name: req.body.product_name,
+			unit: req.body.unit,
+			quantity: req.body.quantity,
+			unit_price: req.body.unit_price,
+			discount_percent: req.body.discount_percent,
+			deliver_remainder: req.body.deliver_remainder,
+			remain_qty_2: req.body.remain_qty_2,
+			remain_unit_2: req.body.remain_unit_2,
+			sales_tax_group: req.body.sales_tax_group,
+			item_sales_tax_group: req.body.item_sales_tax_group,
+			value: req.body.value,
+			value_inc_tax: req.body.value_inc_tax,
+			dimension_value: req.body.dimension_value,
+		};
 
-// 	const checkUserId: UsersDTO[] = await knex<UsersDTO>('users').where({ user_id: req.body.user_id }).select('*')
-// 	const checkSaldoUserId: SaldoDTO[] = await knex<SaldoDTO>('saldo').where({ user_id: req.body.user_id }).select('*')
+		const [salesOrders] = await knex("so").insert(salesOrder).returning("*");
 
-// 	if (checkUserId.length < 1) {
-// 		return res.status(404).json({
-// 			status: res.statusCode,
-// 			method: req.method,
-// 			message: 'user id is not exist, add saldo failed'
-// 		})
-// 	}
-
-// 	if (checkSaldoUserId.length > 0) {
-// 		return res.status(409).json({
-// 			status: res.statusCode,
-// 			method: req.method,
-// 			message: 'saldo user id already exist, add saldo failed'
-// 		})
-// 	}
-
-// 	const saveSaldo = await knex<SaldoDTO>('saldo')
-// 		.insert({ user_id: checkUserId[0].user_id, total_balance: req.body.total_balance, created_at: new Date() })
-// 		.returning('*')
-
-// 	if (Object.keys(saveSaldo[0]).length < 1) {
-// 		return res.status(408).json({
-// 			status: res.statusCode,
-// 			method: req.method,
-// 			message: 'add saldo failed, server is busy'
-// 		})
-// 	}
-
-// 	return res.status(200).json({
-// 		status: res.statusCode,
-// 		method: req.method,
-// 		message: 'add saldo successfully'
-// 	})
-// }
+		return res.status(201).json({
+			status: res.statusCode,
+			method: req.method,
+			message: "Sales order berhasil dibuat",
+			data: salesOrders,
+		});
+	} catch (error) {
+		return res.status(500).json({
+			status: res.statusCode,
+			method: req.method,
+			message: "Gagal membuat Sales Order",
+			error: error instanceof Error ? error.message : "Unknown error",
+		});
+	}
+};

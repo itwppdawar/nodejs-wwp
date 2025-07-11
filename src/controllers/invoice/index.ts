@@ -1,14 +1,15 @@
-// import { createInvoice } from "./invoice.create";
+import { createInvoice } from "./invoice.create";
 import { resultsInvoice } from "./invoice.results";
-// import { deleteInvoice } from "./invoice.delete";
+import { deleteInvoice } from "./invoice.delete";
 import { detailInvoice } from "./invoice.detail";
+import { updateInvoice } from "./invoice.update";
 import { uploadExcelInvoice } from "./invoice.upload";
-// import { uploadExcelReport} from "./sq.upload";
 
 export const InvoiceController = {
-	// createInvoice,
+	createInvoice,
 	resultsInvoice,
-	// deleteInvoice,
+	deleteInvoice,
 	detailInvoice,
+	updateInvoice,
 	uploadExcelInvoice,
 };

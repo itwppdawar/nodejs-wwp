@@ -1,15 +1,15 @@
-// import { createSo } from "./sq.create";
+import { createSq } from "./sq.create";
 import { resultsSQ } from "./sq.results";
 import { detailSQ } from "./sq.detail";
 import { uploadExcelSq } from "./sq.upload";
-// import { deleteSQ } from "./sq.delete";
-// import { updateSQ } from "./sq.update";
+import { deleteSq } from "./sq.delete";
+import { updateSq } from "./sq.update";
 
 export const salesQoutationController = {
-	// createSQ,
+	createSq,
 	resultsSQ,
 	detailSQ,
 	uploadExcelSq,
-	// deleteSQ,
-	// updateSQ
+	deleteSq,
+	updateSq,
 };

@@ -16,7 +16,6 @@ export const detailSo = async (
 			});
 		}
 
-		// Ambil data Sales Order berdasarkan ID
 		const request = await knex("so").where({ id }).first();
 
 		if (!request) {
