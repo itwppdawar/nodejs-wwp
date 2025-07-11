@@ -3,7 +3,7 @@ import type { Knex } from "knex";
 export async function up(knex: Knex): Promise<Knex.SchemaBuilder> {
 	await knex.schema.createTable("salesInvoice", (table: Knex.TableBuilder) => {
 		table.increments("id").primary();
-		table.string("invoice_account").unique().notNullable();
+		table.string("invoice_account").notNullable();
 		table.string("description").nullable();
 		table.string("customer_address_group").nullable();
 		table.string("customer_credit_limit_group").nullable();
@@ -23,14 +23,14 @@ export async function up(knex: Knex): Promise<Knex.SchemaBuilder> {
 		table.string("delivered_2").notNullable();
 		table.string("unit_2").notNullable();
 		table.string("unit_price").notNullable();
-		table.decimal("discount_percent", 15, 2).nullable();
-		table.decimal("total_discount_percent", 15, 2).nullable();
-		table.decimal("amount", 15, 2).nullable();
-		table.decimal("tax_amount", 15, 2).nullable();
+		table.string("discount_percent").nullable();
+		table.string("total_discount_percent").nullable();
+		table.string("amount").nullable();
+		table.string("tax_amount").nullable();
 		table.string("prices_include_sales_tax").nullable();
-		table.decimal("amount_exc_tax", 15, 2).nullable();
-		table.decimal("amount_inc_tax", 15, 2).nullable();
-		table.decimal("value", 15, 2).nullable();
+		table.string("amount_exc_tax").nullable();
+		table.string("amount_inc_tax").nullable();
+		table.string("value").nullable();
 		table.string("div").nullable();
 		table.timestamp("created_at").defaultTo(null);
 		table.timestamp("updated_at").defaultTo(null);

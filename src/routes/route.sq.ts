@@ -1,9 +1,9 @@
 import express, { Router } from "express";
 import { salesQoutationController } from "../controllers/sQ";
-import { authJwt } from "../middlewares/middleware.auth";
+import { roleJwt } from "../middlewares/middleware.role";
 import { reportValidator } from "../utils/util.validator";
 // import { excelUpload } from "../utils/util.excel.upload";
-
+import { excelUpload } from "../utils/util.excel.upload";
 const router: Router = express.Router();
 
 // router.post(
@@ -11,11 +11,16 @@ const router: Router = express.Router();
 // 	[authJwt(), ...reportValidator()],
 // 	requestController.createReport
 // );
-router.get("/sales-qoutation", [authJwt()], salesQoutationController.resultsSQ);
+router.get("/sales-qoutation", [roleJwt()], salesQoutationController.resultsSQ);
 router.get(
 	"/sales-qoutation/:id",
-	[authJwt()],
+	[roleJwt()],
 	salesQoutationController.detailSQ
 );
 
+router.post(
+	"/upload-sales-qoutation",
+	[roleJwt(), excelUpload.single("file")],
+	salesQoutationController.uploadExcelSq
+);
 export default router;
