@@ -1,0 +1,24 @@
+#### STAGE ONE
+FROM node:22-alpine AS node
+RUN apk add make
+WORKDIR /app
+COPY package*.json ./
+RUN apk add make
+COPY . ./
+
+#### STAGE TWO
+FROM node AS build
+WORKDIR /app
+COPY --from=node ./app ./
+RUN make bprod
+
+#### STAGE THREE
+FROM node:22-alpine
+WORKDIR /app
+COPY --from=build /app ./
+ENV NODE_ENV="production" \
+  PG_URI="postgres://postgres:root@db:5432/erp" \
+  URL_PROD="http://localhost:3000"
+RUN chmod 777 ./scripts/start-prod.sh
+EXPOSE 3000
+CMD ./scripts/start-prod.sh

@@ -1,0 +1,32 @@
+#### STAGE ONE
+FROM node:22-alpine AS node
+RUN apk add make
+WORKDIR /app
+COPY package*.json \
+	.editorconfig \
+	.eslintignore\
+	.eslintrc \
+	.prettierrc ./
+RUN apk add make
+COPY . ./
+
+#### STAGE TWO
+FROM node AS build
+WORKDIR /app
+COPY --from=node ./app ./
+RUN make bdev
+
+#### STAGE THREE
+FROM node:22-alpine
+WORKDIR /app
+COPY --from=build /app ./
+ENV NODE_ENV="development" \
+	PG_HOST="db" \
+	PG_USERNAME="postgres" \
+	PG_PASSWORD="root" \
+	PG_DATABASE="erp" \
+	PG_PORT="5432" \
+	URL_DEV="http://localhost:3000"
+RUN chmod 777 ./scripts/start-dev.sh
+EXPOSE 3000
+CMD ./scripts/start-dev.sh
