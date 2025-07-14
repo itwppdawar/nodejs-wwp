@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import knex from "../../database";
-import sgMail from "@sendgrid/mail";
+import transporter from "../../utils/util.mailer";
 import { ClientResponse } from "@sendgrid/client/src/response";
 import { tempMailReset } from "../../templates/template.reset";
 import { signAccessToken } from "../../utils/util.jwt";
@@ -8,7 +8,6 @@ import { expressValidator } from "../../utils/util.validator";
 import { UsersDTO } from "../../dto/dto.users";
 import { IResetMail } from "../../interface/interface.templatemail";
 import { IJwt } from "../../interface/interface.jwt";
-sgMail.setApiKey(process.env.SG_SECRET);
 
 export const forgot = async (
 	req: Request,
@@ -53,12 +52,18 @@ export const forgot = async (
 	);
 	const template: IResetMail = tempMailReset(email, accessToken);
 
-	const sgResponse: [ClientResponse, any] = await sgMail.send(template);
-	if (!sgResponse) {
+	try {
+		await transporter.sendMail({
+			from: process.env.MAIL_USERNAME,
+			to: template.to,
+			subject: template.subject,
+			html: template.html,
+		});
+	} catch (error) {
 		return res.status(500).json({
 			status: res.statusCode,
 			method: req.method,
-			message: "Server error failed to sending email activation",
+			message: "Server error failed to sending email reset password",
 		});
 	}
 

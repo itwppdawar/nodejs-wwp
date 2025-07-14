@@ -6,159 +6,134 @@ const CLIENT_URL =
 		: process.env.URL_PROD;
 
 export const tempMailRegister = (to: string, token: string): IRegisterMail => ({
-	from: "admin@bfintech.com",
-	to: to,
-	subject: "Email Activation Account",
+	from: process.env.MAIL_USERNAME,
+	to,
+	subject: "Aktivasi Akun Anda",
 	html: `
-        <!DOCTYPE html>
-        <html lang="en">
+    <!DOCTYPE html>
+    <html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aktivasi Akun</title>
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
+</head>
 
-        <head>
-            <title>Tech Soft</title>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-
-            <style type="text/css">
-                html, body {
-                    font-family: "Roboto Thin";
-                    clear: both;
-                    margin: auto;
-                    padding: auto;
-                }
-
-                .container {
-                    position: relative !important;
-                    margin: auto !important;
-                    text-align: center;
-                    width: 650px;
-                    height: 650px;
-                    border-radius: 10px;
-                }
-
-                .container .card {
-                    justify-content: center;
-                    align-content: center;
-                    position: relative;
-                    top: 30px;
-                }
-
-                .container .logo {
-                    background: #07cd10;
-                    width: 360px;
-                    height: 40px;
-                    border-radius: 10px;
-                    position: relative;
-                    margin: auto;
-                    text-align: center;
-                    font-weight: bold;
-                }
-
-                .logo h4 a {
-
-                    font-size: 22px;
-                    text-align: center;
-                    line-height: 40px;
-                    color: #f5f5f5;
-                    opacity: 1;
-                }
-
-                .card-title {
-                    font-size: 19px;
-                    line-height: 30px;
-                }
-
-                .card-subtitle {
-                    font-size: 17px;
-                }
-
-
-                .list-accout {
-                    font-size: 16px;
-                    position: relative;
-                    top: 20px;
-                }
-
-                .button-spotify {
-                    position: relative;
-                    justify-content: center;
-                }
-
-                a {
-                    display: inline-block;
-                    position: relative;
-                    margin: auto;
-                    text-decoration: none;
-                    color: white;
-                    font-weight: bold;
-                    outline: none;
-                    box-shadow: none;
-                    font-size: 15px;
-                }
-
-                button {
-                    width: 150px;
-                    height: 50px;
-                    border-radius: 10px;
-                    background: #07cd10;
-                    position: relative;
-                    top: 10px;
-                    font-weight: bold;
-                    font-size: 18px;
-                    color: #f5f5f5;
-                    opacity: 1;
-                }
-
-                .text-content {
-                    font-size: 16px;
-                    word-wrap: break-word;
-                    position: relative;
-                    top: 55px;
-                }
-
-                .footer-logo{
-
-                    background: #07cd10;
-                    color: #f5f5f5;
-                    width: 360px;
-                    height: 40px;
-                    border-radius: 15px;
-                    position: relative;
-                    margin: auto;
-                    text-align: center;
-                    top: 3vh;
-                    font-weight: bold;
-                }
-
-                .footer {
-                    font-size: 17px;
-                    line-height: 40px;
-                    text-align: center;
-                    opacity: 1;
-                }
-            </style>
-
-        </head>
-        <body>
-        <div class="container">
-            <div class="card">
-                <div class="logo">
-                    <h4><a href="">PT BRAHMA BENUA SEJAHTERA</a></h4>
-                </div>
-                <div class="card-body">
-                    <p class="card-title"><strong>Hello Dear ${to}</strong></p>
-                        <p class="card-subtitle"><strong>Kepada user YTH </strong>silahkan konfirmasi account  anda:
-                    </p>
-                <div class="text-content">
-                    <button>
-                      <a href="${CLIENT_URL}/api/v1/user/activation/${token}">Activation Account</a>
-                    </button>
-                    <div class="footer-logo">
-                        <span class="footer">&copy; ${new Date().getFullYear()} PT BRAHMA BENUA SEJAHTERA, Inc All Right Reserved</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          </body>
-      </html>
-        `,
+<body style="margin: 0; padding: 0; background-color: #f6f8fb; font-family: Arial, sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+  <!-- Wrapper Table -->
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #f6f8fb;">
+    <tr>
+      <td align="center" style="padding: 32px 16px;">
+        
+        <!-- Main Card Table -->
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); overflow: hidden;">
+          
+          <!-- Header -->
+          <tr>
+            <td style="background-color: #07cd10; padding: 32px 24px; text-align: center;">
+              <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 600; line-height: 1.2;">
+                PT BRAHMA BENUA SEJAHTERA
+              </h1>
+            </td>
+          </tr>
+          
+          <!-- Body Content -->
+          <tr>
+            <td style="padding: 40px 32px 24px;">
+              
+              <!-- Greeting -->
+              <p style="margin: 0 0 24px; font-size: 18px; font-weight: 600; color: #333333; line-height: 1.4;">
+                Halo! Pengguna Baru,
+              </p>
+              
+              <!-- Main Message -->
+              <p style="margin: 0 0 24px; font-size: 16px; color: #555555; line-height: 1.6;">
+                Terima kasih telah mendaftar di sistem kami. Untuk menyelesaikan proses pendaftaran, silakan klik tombol di bawah ini untuk mengaktifkan akun Anda.
+              </p>
+              
+              <!-- Security Note -->
+              <div style="background-color: #f8f9fa; border-left: 4px solid #07cd10; padding: 16px 20px; margin: 24px 0; border-radius: 4px;">
+                <p style="margin: 0; font-size: 14px; color: #666666; line-height: 1.5;">
+                  <strong>💡 Catatan Keamanan:</strong><br>
+                  Link aktivasi ini akan kedaluwarsa dalam 24 jam untuk menjaga keamanan akun Anda.
+                </p>
+              </div>
+              
+            </td>
+          </tr>
+          
+          <!-- CTA Button -->
+          <tr>
+            <td style="padding: 0 32px 40px; text-align: center;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto;">
+                <tr>
+                  <td style="background-color: #07cd10; border-radius: 8px; box-shadow: 0 4px 12px rgba(7, 205, 16, 0.3);">
+                    <a href="${CLIENT_URL}/api/v1/user/activation/${token}" 
+                       style="display: inline-block; padding: 16px 32px; color: #ffffff; font-size: 16px; font-weight: 600; text-decoration: none; border-radius: 8px; transition: all 0.3s ease;">
+                      🚀 Aktivasi Akun Sekarang
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          
+          
+          <!-- Divider -->
+          <tr>
+            <td style="padding: 0 32px;">
+              <hr style="border: none; height: 1px; background-color: #e9ecef; margin: 0;">
+            </td>
+          </tr>
+          
+          <!-- Help Section -->
+          <tr>
+            <td style="padding: 32px;">
+              <h3 style="margin: 0 0 16px; font-size: 16px; font-weight: 600; color: #333333;">
+                Butuh Bantuan?
+              </h3>
+              <p style="margin: 0 0 12px; font-size: 14px; color: #666666; line-height: 1.5;">
+                Jika Anda mengalami kesulitan atau tidak merasa mendaftar, silakan hubungi tim support kami:
+              </p>
+              <p style="margin: 0; font-size: 14px; color: #666666; line-height: 1.5;">
+                📧 Email: <a href="ttzluthfi@gmail.com" style="color: #07cd10; text-decoration: none;">support@brahmabenua.com</a><br>
+                📞 Telepon: <a href="082151234906" style="color: #07cd10; text-decoration: none;">+62 21-xxx-xxxx</a>
+              </p>
+            </td>
+          </tr>
+          
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: #f8f9fa; padding: 24px 32px; text-align: center; border-top: 1px solid #e9ecef;">
+              <p style="margin: 0 0 8px; font-size: 12px; color: #888888;">
+                &copy; ${new Date().getFullYear()} PT BRAHMA BENUA SEJAHTERA
+              </p>
+              <p style="margin: 0; font-size: 12px; color: #aaaaaa;">
+                Email ini dikirim secara otomatis, mohon tidak membalas email ini.
+              </p>
+            </td>
+          </tr>
+          
+        </table>
+        
+      </td>
+    </tr>
+  </table>
+  
+  <!-- Gmail App Dark Mode Support -->
+  <div style="display: none; max-height: 0; overflow: hidden;">
+    &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+  </div>
+  
+</body>
+</html>
+  `,
 });

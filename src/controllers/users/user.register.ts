@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import sgMail from "@sendgrid/mail";
-import { ClientResponse } from "@sendgrid/client/src/response";
+import transporter from "../../utils/util.mailer";
 import knex from "../../database";
 import { UsersDTO } from "../../dto/dto.users";
 import { hashPassword } from "../../utils/util.encrypt";
@@ -9,7 +8,6 @@ import { tempMailRegister } from "../../templates/template.register";
 import { IRegisterMail } from "../../interface/interface.templatemail";
 import { IJwt } from "../../interface/interface.jwt";
 import { expressValidator } from "../../utils/util.validator";
-sgMail.setApiKey(process.env.SG_SECRET);
 
 export const register = async (
 	req: Request,
@@ -61,8 +59,14 @@ export const register = async (
 	);
 	const template: IRegisterMail = tempMailRegister(email, accessToken);
 
-	const sgResponse: [ClientResponse, any] = await sgMail.send(template);
-	if (!sgResponse) {
+	try {
+		await transporter.sendMail({
+			from: process.env.MAIL_USERNAME,
+			to: template.to,
+			subject: template.subject,
+			html: template.html,
+		});
+	} catch (error) {
 		return res.status(500).json({
 			status: res.statusCode,
 			method: req.method,

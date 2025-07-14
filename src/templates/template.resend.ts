@@ -143,7 +143,7 @@ export const tempMailResend = (to: string, token: string): IResendMail => {
         <div class="container">
             <div class="card">
                 <div class="logo">
-                    <h4><a href="">Barbar Fintech Company</a></h4>
+                    <h4><a href="">PT BRAHMA BENUA SEJAHTERA</a></h4>
                 </div>
                 <div class="card-body">
                     <p class="card-title"><strong>Hello Dear ${to}</strong></p>
@@ -154,7 +154,7 @@ export const tempMailResend = (to: string, token: string): IResendMail => {
                       <a href="${CLIENT_URL}/api/v1/user/activation/${token}">Activation Account</a>
                     </button>
                     <div class="footer-logo">
-                        <span class="footer">&copy; ${new Date().getFullYear()} Barbar Fintech Company, Inc All Right Reserved</span>
+                        <span class="footer">&copy; ${new Date().getFullYear()} PT BRAHMA BENUA SEJAHTERA, Inc All Right Reserved</span>
                         </div>
                     </div>
                 </div>
