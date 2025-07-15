@@ -58,7 +58,7 @@ services:
       - db
     environment:
       - PGADMIN_DEFAULT_EMAIL=mugiwarassae02@gmail.com
-      - PGADMIN_DEFAULT_PASSWORD=zuihqqwvgyhdztzc
+      - PGADMIN_DEFAULT_PASSWORD=root
     ports:
       - 8080:80
     networks:
