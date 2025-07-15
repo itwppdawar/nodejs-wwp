@@ -3,7 +3,7 @@ services:
   # webapp config
   web:
     container_name: erp_app
-    restart: on-failure
+    restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -14,7 +14,22 @@ services:
       - /app/node_modules
     ports:
       - 3000:3000
-    command: ["npm", "run", "dev"]
+    stdin_open: true
+    tty: true
+    environment:
+      - NODE_ENV=development
+      - PG_HOST=db
+      - PG_USERNAME=postgres
+      - PG_PASSWORD=root
+      - PG_DATABASE=erp
+      - PG_PORT=5432
+      - URL_DEV=http://localhost:3000
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     networks:
       express_network:
   # postgres config
