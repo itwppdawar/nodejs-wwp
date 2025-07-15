@@ -13,7 +13,17 @@ services:
       - .:/app
       - /app/node_modules
     ports:
-      - 3000:3000
+      - "${PUBLIC_IP}:${APP_PORT}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PG_HOST=${PG_HOST}
+      - PG_USERNAME=${PG_USERNAME}
+      - PG_PASSWORD=${PG_PASSWORD}
+      - PG_DATABASE=${PG_DATABASE}
+      - PG_PORT=${DB_PORT}
+      - URL_PROD=http://${PUBLIC_IP}:${APP_PORT}
+      - HOST=0.0.0.0
+      - PORT=3000
     networks:
       express_network:
   # postgres config
@@ -22,13 +32,13 @@ services:
     restart: always
     image: postgres:latest
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=erp
+      - POSTGRES_USER=${PG_USERNAME}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=${PG_DATABASE}
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "${PUBLIC_IP}:${DB_PORT}:5432"
     networks:
       express_network:
 
