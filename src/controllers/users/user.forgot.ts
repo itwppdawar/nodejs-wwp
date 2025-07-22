@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import knex from "../../database";
 import transporter from "../../utils/util.mailer";
-import { ClientResponse } from "@sendgrid/client/src/response";
 import { tempMailReset } from "../../templates/template.reset";
 import { signAccessToken } from "../../utils/util.jwt";
 import { expressValidator } from "../../utils/util.validator";
