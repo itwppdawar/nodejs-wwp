@@ -1,2 +1,2 @@
-npx knex migrate:latest
+npm knex migrate:latest
 npm start
