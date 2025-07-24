@@ -16,7 +16,10 @@ export const pluginMiddleware = (app: Application): void => {
 	app.use(bodyParser.urlencoded({ extended: false }));
 	app.use(helmet({ contentSecurityPolicy: false }));
 	app.use(cors({
-		origin: true
+		origin: true,
+		methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+		allowedHeaders: ['Content-Type', 'Authorization'],
+		credentials: true,
 	}));
 	app.use(cookieParser());
 	app.use(
