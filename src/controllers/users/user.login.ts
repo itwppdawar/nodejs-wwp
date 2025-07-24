@@ -85,6 +85,11 @@ export const login = async (
 					status: res.statusCode,
 					method: req.method,
 					message: "Login successfully",
+					data: {
+						email: findUser[0].email,
+						active: findUser[0].active,
+						role: findUser[0].role,
+					},
 					...token,
 				});
 			}

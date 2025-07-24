@@ -4,6 +4,7 @@ interface IUsers {
 	readonly password?: string;
 	readonly photo?: string;
 	readonly active?: boolean;
+	readonly role?: string;
 	readonly noc_transfer?: number;
 	readonly first_login?: any;
 	readonly last_login?: any;
