@@ -15,7 +15,9 @@ export const pluginMiddleware = (app: Application): void => {
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({ extended: false }));
 	app.use(helmet({ contentSecurityPolicy: false }));
-	app.use(cors());
+	app.use(cors({
+		origin: true
+	}));
 	app.use(cookieParser());
 	app.use(
 		compression({
